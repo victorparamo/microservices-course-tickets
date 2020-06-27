@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 import mongoose from 'mongoose';
+import { natsWrapper } from '../../nats-wrapper';
 
 const createTicket = (cookie?: string[]) => {
   const title = 'test';
@@ -101,4 +102,22 @@ it('can fetch the list of tickets', async () => {
     .expect(200);
 
   expect(response.body.title).toEqual(newTitle);
-})
+});
+
+
+it('publishes an event', async () => {
+  const cookie = global.signin();
+  const responseCreate = await createTicket(cookie);
+
+  const newTitle = 'testUpdated';
+  await request(app)
+    .put(`/api/tickets/${responseCreate.body.id}`)
+    .set('Cookie', cookie)
+    .send({
+      title: newTitle,
+      price: 1000,
+    })
+    .expect(200);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
+});

@@ -15,12 +15,13 @@
     "express-validator": "^6.5.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.15",
+    "node-nats-streaming": "^0.3.2",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.9.3"
   },
   "scripts": {
     "start": "ts-node-dev src/index.ts",
-    "test": "jest --watchAll --no-cache --maxWorkers 4"
+    "test": "jest --watchAll --no-cache"
   },
   "jest": {
     "preset": "ts-jest",
@@ -33,7 +34,8 @@
     "@types/jest": "^25.2.3",
     "@types/supertest": "^2.0.9",
     "jest": "^26.0.1",
-    "mongodb-memory-server": "^5.1.4",
+    "mongodb-memory-server": "^6.6.1",
+    "mongodb-memory-server-global": "^6.6.1",
     "supertest": "^4.0.2",
     "ts-jest": "^26.0.0"
   }

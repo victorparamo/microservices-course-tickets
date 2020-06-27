@@ -5,7 +5,10 @@ import {
   ValidateRequest,
   NotAuthorizedError,
   NotFound,
-} from '@vptickets/common'
+} from '@vptickets/common';
+
+import { TicketUpdatedPublisher } from '../events/ticket-updated-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 import { Ticket } from '../models/tickets';
 
@@ -42,6 +45,12 @@ router.put('/api/tickets/:id',
     });
 
     await ticket.save();
+    new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+    });
 
     res.status(200).send(ticket);
   }

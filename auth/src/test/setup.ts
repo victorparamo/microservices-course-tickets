@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-let mongo: any;
+let mongo: any = null;
 
 beforeAll(async () => {
   process.env.JWT_KEY = 'secret';
